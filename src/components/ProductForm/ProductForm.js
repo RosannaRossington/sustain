@@ -60,6 +60,7 @@ export class ProductForm extends PureComponent {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>{this.state.products} </div>
+        <div>"Product is"{this.state.products[3]} </div>
 
         <label>
           Product URL:
