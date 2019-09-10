@@ -24,17 +24,13 @@ export class ProductForm extends PureComponent {
 
   handleSubmit(event, state) {
     const productId = JSON.stringify(this.state.value);
-    console.log(productId);
-
+    const url = `https://ecomm.ynap.biz/yoox/ton/search/resources/store/theoutnet_GB/productview/${productId}`;
     axios
-      .get(
-        "https://ecomm.ynap.biz/yoox/ton/search/resources/store/theoutnet_GB/productview/${productId}",
-        {
-          headers: {
-            "x-ibm-client-Id": "705b890d-fdb9-4867-a392-331c2fb86e19"
-          }
+      .get(url, {
+        headers: {
+          "x-ibm-client-Id": "705b890d-fdb9-4867-a392-331c2fb86e19"
         }
-      )
+      })
       .then(response => {
         // create an array of products only with relevant data
         const newProducts = response.data.products.map(p => {
