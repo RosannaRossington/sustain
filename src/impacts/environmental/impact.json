@@ -1,0 +1,24 @@
+// https://msi.higg.org/page/learn-more#how-are-materials-scored
+//https://stackoverflow.com/questions/47956521/chain-requests-so-i-can-use-data-from-my-first-request-in-my-second-one//
+{
+  "data": [
+    {
+      "geographic_location": "Spain",
+      "material_name": "Nylon",
+      "total_score": 10,
+      "chemistry_total": 12,
+      "energy_ghg_emissions_intensity_total": 20,
+      "water_land_intensity_total": 22,
+      "physical_waste_total": 22
+    },
+    {
+      "geographic_location": "India",
+      "material_name": "Cotton",
+      "total_score": 10,
+      "chemistry_total": 12,
+      "energy_ghg_emissions_intensity_total": 20,
+      "water_land_intensity_total": 22,
+      "physical_waste_total": 22
+    }
+  ]
+}

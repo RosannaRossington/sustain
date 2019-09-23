@@ -25,7 +25,26 @@ export class ProductForm extends PureComponent {
   handleSubmit(event) {
     const productId = JSON.stringify(this.state.value);
     const productUrl = `https://ecomm.ynap.biz/yoox/ton/search/resources/store/theoutnet_GB/productview/${productId}`;
-    const impactUrl = "../impact.json";
+    const impacts = [
+      {
+        geographic_location: "Spain",
+        material_name: "Nylon",
+        total_score: 10,
+        chemistry_total: 12,
+        energy_ghg_emissions_intensity_total: 20,
+        water_land_intensity_total: 22,
+        physical_waste_total: 22
+      },
+      {
+        geographic_location: "India",
+        material_name: "Cotton",
+        total_score: 10,
+        chemistry_total: 12,
+        energy_ghg_emissions_intensity_total: 20,
+        water_land_intensity_total: 22,
+        physical_waste_total: 22
+      }
+    ];
 
     axios
       .get(productUrl, {
@@ -47,29 +66,10 @@ export class ProductForm extends PureComponent {
 
         // store the new state object in the component's state
         this.setState(newState);
+        
       })
       .catch(error => console.log(error));
 
-    // const getMaterialImpact = () => {
-    //   axios
-    //   .get(impactUrl)
-    //   .then(response => {
-    //     //check productId matches material_name if so return impact object
-    //     const impacts = response.data.impacts.map(m => {
-    //       if(m.material_name === productId){
-    //         return [
-    //           m.physical_waste_total
-    //         ];
-    //       }
-    //     }
-    //     const impactState = Object.assign({}, this.state, {
-    //       impacts: newImpacts
-    //     });
-
-    //     this.setState(impactState);
-    //   })
-    //   .catch(error => console.log(error));
-    // };
     event.preventDefault();
   }
 
