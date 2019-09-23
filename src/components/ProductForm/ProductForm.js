@@ -43,6 +43,15 @@ export class ProductForm extends PureComponent {
         energy_ghg_emissions_intensity_total: 20,
         water_land_intensity_total: 22,
         physical_waste_total: 22
+      },
+      {
+        geographic_location: "India",
+        material_name: "Polyester",
+        total_score: 10,
+        chemistry_total: 12,
+        energy_ghg_emissions_intensity_total: 20,
+        water_land_intensity_total: 22,
+        physical_waste_total: 22
       }
     ];
 
@@ -57,16 +66,24 @@ export class ProductForm extends PureComponent {
         const productMaterial = response.data.products.map(p => {
           return [p.productColours[0].sKUs[0].composition];
         });
+        console.log(productMaterial.match(/^[a-zA-Z]+$/));
 
-        // create a new "State" object without mutating
-        // the original State object.
         const newState = Object.assign({}, this.state, {
           products: productMaterial
         });
+        // create a new "State" object without mutating
+        // the original State object.
 
         // store the new state object in the component's state
         this.setState(newState);
-        
+
+        {
+          impacts.map(impact => {
+            console.log(this.state.products);
+            impact.material_name === this.state.products &&
+              console.log(impact.material_name);
+          });
+        }
       })
       .catch(error => console.log(error));
 
