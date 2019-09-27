@@ -8,7 +8,7 @@ export class ProductForm extends PureComponent {
   constructor(props) {
     super(props);
     //   //set the value attribute on the form element this.state.value === product URL
-    this.state = { products: [] };
+    this.state = { products: [], materialLocation: [] };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,11 +89,18 @@ export class ProductForm extends PureComponent {
               .toString()
               .replace(/[^A-Za-z]+/g, "");
 
-            const checkImpactMaterial = obj =>
-              obj.material_name === materialOnly && obj;
-            console.log(impacts.some(checkImpactMaterial));
-
-            // impactFound ? console.log('your item came from' + geographic_location) : console.log('no match')
+            const impactCheck = obj => obj.material_name === materialOnly;
+            const impactInfo = impacts.find(impactCheck);
+            const materialLocation = impactInfo.geographic_location;
+            const water = impactInfo.water_land_intensity_total;
+            const carbonFootprint =
+              impactInfo.energy_ghg_emissions_intensity_total;
+            const addState = Object.assign({}, this.state, {
+              materialLocation: materialLocation,
+              water: water,
+              carbonFootprint: carbonFootprint
+            });
+            this.setState(addState);
           });
         }
       })
@@ -108,7 +115,10 @@ export class ProductForm extends PureComponent {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>Material composition:{this.state.products}</div>
-        <div>This came from:</div>
+        <div>This came from:{this.state.materialLocation}</div>
+        <div>Water:{this.state.water}</div>
+        <div>Carbon Footprint:{this.state.carbonFootprint}</div>
+
         <label>
           Product URL:
           <input
