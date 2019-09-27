@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 //https://stackoverflow.com/questions/47956521/chain-requests-so-i-can-use-data-from-my-first-request-in-my-second-one
 //controlled component using event handlers
+//https://www.theoutnet.com/en-gb/shop/product/biker-jackets_cod7600457660131157.html#dept=INTL_IRO_DESIGNERS ERROR CASE
 export class ProductForm extends PureComponent {
   constructor(props) {
     super(props);
@@ -52,6 +53,15 @@ export class ProductForm extends PureComponent {
         energy_ghg_emissions_intensity_total: 20,
         water_land_intensity_total: 22,
         physical_waste_total: 22
+      },
+      {
+        geographic_location: "India",
+        material_name: "Viscose",
+        total_score: 10,
+        chemistry_total: 12,
+        energy_ghg_emissions_intensity_total: 20,
+        water_land_intensity_total: 22,
+        physical_waste_total: 22
       }
     ];
 
@@ -62,26 +72,28 @@ export class ProductForm extends PureComponent {
         }
       })
       .then(response => {
-        // create an array of products only with relevant data
         const productMaterial = response.data.products.map(p => {
           return [p.productColours[0].sKUs[0].composition];
         });
-        console.log(productMaterial.match(/^[a-zA-Z]+$/));
 
         const newState = Object.assign({}, this.state, {
           products: productMaterial
         });
-        // create a new "State" object without mutating
-        // the original State object.
 
-        // store the new state object in the component's state
         this.setState(newState);
 
         {
           impacts.map(impact => {
-            console.log(this.state.products);
-            impact.material_name === this.state.products &&
-              console.log(impact.material_name);
+            const composition = this.state.products[0];
+            const materialOnly = composition
+              .toString()
+              .replace(/[^A-Za-z]+/g, "");
+
+            const checkImpactMaterial = obj =>
+              obj.material_name === materialOnly && obj;
+            console.log(impacts.some(checkImpactMaterial));
+
+            // impactFound ? console.log('your item came from' + geographic_location) : console.log('no match')
           });
         }
       })
@@ -90,14 +102,13 @@ export class ProductForm extends PureComponent {
     event.preventDefault();
   }
 
-  //state has changed and now includes the material so now want to make a call to return imapct of the material
   componentDidUpdate() {}
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <div>Material:{this.state.products}</div>
-        <div>This material impacts:</div>
+        <div>Material composition:{this.state.products}</div>
+        <div>This came from:</div>
         <label>
           Product URL:
           <input
